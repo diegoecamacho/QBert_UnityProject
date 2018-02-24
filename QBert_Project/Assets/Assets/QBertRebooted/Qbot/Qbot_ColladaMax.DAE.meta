@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 8dc7aed3f82fe2e47b65ad9e337815ed
-timeCreated: 1519354100
+guid: fb2e5611eb8a046e1b7e4128ba683eb7
+timeCreated: 1519404789
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -19,8 +19,8 @@ ModelImporter:
     100022: nose02
     100024: nose1
     100026: pelvis
-    100028: //RootNode
-    100030: Qbert
+    100028: Qbot
+    100030: //RootNode
     100032: R_brow02
     100034: R_brow1
     100036: R_calf
@@ -44,7 +44,7 @@ ModelImporter:
     400022: nose02
     400024: nose1
     400026: pelvis
-    400028: Qbert
+    400028: Qbot
     400030: //RootNode
     400032: R_brow02
     400034: R_brow1
@@ -55,10 +55,11 @@ ModelImporter:
     400044: R_toe
     400046: ReyeLidbotom
     400048: ReyeLidTop
-    2100000: 'Material #35'
-    4300000: Qbert
+    2100000: Material__58
+    2100002: Material__59
+    4300000: Qbot
     9500000: //RootNode
-    13700000: Qbert
+    13700000: Qbot
   externalObjects: {}
   materials:
     importMaterials: 1
