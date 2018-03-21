@@ -33,3 +33,4 @@ sysinfo.txt
 *.apk
 *.unitypackage
 QBert_Project/Library
+QBert_Project/.vs/

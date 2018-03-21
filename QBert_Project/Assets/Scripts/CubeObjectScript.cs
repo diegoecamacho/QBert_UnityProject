@@ -8,31 +8,14 @@ public class CubeObjectScript : MonoBehaviour {
     public CubeObjectScript backRight;
     public CubeObjectScript backLeft;
 
-    Material Untouched_Top;
-    Material Stepped_Top;
-    Material Random_Top;
+    int Steps;
 
+    MeshRenderer cubeMesh;
+    Material Untouched_Top;
 
     [SerializeField] float yOffset = 0.3f;
 
-	private void Start()
-	{
-        Untouched_Top = (Material)Resources.Load("Top_Untouched");
-        Stepped_Top = (Material)Resources.Load("Top_Clicked");
-        Random_Top = (Material)Resources.Load("Top_Random");
-
-        Debug.Log(Untouched_Top);
-
-        if (Untouched_Top != null)
-        {
-            Debug.Log("Hello Children");
-        }
-
-    }
-
-
-
-	public float YOffset
+    public float YOffset
     {
         get
         {
@@ -40,12 +23,32 @@ public class CubeObjectScript : MonoBehaviour {
         }
     }
 
+    private void Start()
+	{
+        cubeMesh = gameObject.GetComponent<MeshRenderer>();
+        Untouched_Top = (Material)Resources.Load("TopMaterial");
+     
+    }
+
 	private void OnTriggerEnter(Collider other)
 	{
-        Debug.Log("AAAA");
 		if (other.gameObject.tag == "Player")
         {
-            
+            Steps++;
+            switch (Steps)
+            {
+                case 1:
+                    cubeMesh.material.color = Color.white;
+                     break;
+                case 2:
+                    cubeMesh.material.color = Color.yellow;
+                    break;
+                case 3:
+                    cubeMesh.material.color = Color.red;
+                    break;
+                default:
+                    break;
+            }
         }
 	}
 }

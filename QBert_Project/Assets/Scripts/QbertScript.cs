@@ -5,6 +5,8 @@ using UnityEngine;
 public class QbertScript : MonoBehaviour {
     private CubeObjectScript currentCube;
 
+    bool enableCollison = false;
+
     public CubeObjectScript CurrentCube
     {
         get
@@ -42,28 +44,33 @@ public class QbertScript : MonoBehaviour {
     {
         if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.Keypad7)) && CurrentCube.backLeft != null)
         {
-            CurrentCube = CurrentCube.backLeft;
-            transform.parent = CurrentCube.transform;
-            Position = new Vector3(CurrentCube.transform.position.x, CurrentCube.transform.position.y + CurrentCube.YOffset, CurrentCube.transform.position.z);
+            MoveQbert(currentCube.backLeft);
         }
         else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Keypad9)) && CurrentCube.backRight != null)
         {
-            CurrentCube = CurrentCube.backRight;
-            transform.parent = CurrentCube.transform;
-            Position = new Vector3(CurrentCube.transform.position.x, CurrentCube.transform.position.y + CurrentCube.YOffset, CurrentCube.transform.position.z);
+            MoveQbert(currentCube.backRight);
         }
         else if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Keypad1)) && CurrentCube.frontLeft != null)
         {
-            CurrentCube = CurrentCube.frontLeft;
-            transform.parent = CurrentCube.transform;
-            Position = new Vector3(CurrentCube.transform.position.x, CurrentCube.transform.position.y + CurrentCube.YOffset, CurrentCube.transform.position.z);
+            MoveQbert(currentCube.frontLeft);
         }
         else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.Keypad3)) && CurrentCube.frontRight != null)
         {
-            CurrentCube = CurrentCube.frontRight;
-            transform.parent = CurrentCube.transform;
-            Position = new Vector3(CurrentCube.transform.position.x, CurrentCube.transform.position.y + CurrentCube.YOffset, CurrentCube.transform.position.z);
+            MoveQbert(currentCube.frontRight);
         }
+        if (enableCollison)
+        {
+            gameObject.GetComponent<BoxCollider>().enabled = enableCollison;
+        }
+        
 
+    }
+
+    private void MoveQbert(CubeObjectScript destinationCube)
+    {
+        CurrentCube = destinationCube;
+        transform.parent = CurrentCube.transform;
+        Position = new Vector3(CurrentCube.transform.position.x, CurrentCube.transform.position.y + CurrentCube.YOffset, CurrentCube.transform.position.z);
+        enableCollison = true;
     }
 }
