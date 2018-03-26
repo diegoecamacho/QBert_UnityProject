@@ -13,7 +13,7 @@ public class CubeObjectScript : MonoBehaviour {
     MeshRenderer cubeMesh;
     Material Untouched_Top;
 
-    [SerializeField] float yOffset = 0.3f;
+    [SerializeField] float yOffset;
 
     public float YOffset
     {

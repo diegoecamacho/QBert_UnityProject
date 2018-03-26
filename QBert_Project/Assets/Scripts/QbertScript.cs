@@ -30,7 +30,7 @@ public class QbertScript : MonoBehaviour {
 
     // Use this for initialization
 	void Start () {
-        CurrentCube = transform.GetComponentInParent<CubeObjectScript>();
+        currentCube = transform.GetComponentInParent<CubeObjectScript>();
 	}
 	
 	// Update is called once per frame
