@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemySpawner : MonoBehaviour {
-
 
     public static EnemySpawner instance = null;
 
@@ -46,4 +46,13 @@ public class EnemySpawner : MonoBehaviour {
         }
 
     }
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		    
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		    
+	}
 }

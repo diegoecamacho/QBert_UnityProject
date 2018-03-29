@@ -42,21 +42,21 @@ public class QbertScript : MonoBehaviour {
 
     private void InputManager()
     {
-        if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.Keypad7)) && CurrentCube.backLeft != null)
+        if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.Keypad7)) && CurrentCube.Connections[0] != null)
         {
-            MoveQbert(currentCube.backLeft);
+            MoveQbert(currentCube.Connections[0]);
         }
-        else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Keypad9)) && CurrentCube.backRight != null)
+        else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Keypad9)) && CurrentCube.Connections[1] != null)
         {
-            MoveQbert(currentCube.backRight);
+            MoveQbert(currentCube.Connections[1]);
         }
-        else if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Keypad1)) && CurrentCube.frontLeft != null)
+        else if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Keypad1)) && CurrentCube.Connections[2] != null)
         {
-            MoveQbert(currentCube.frontLeft);
+            MoveQbert(currentCube.Connections[2]);
         }
-        else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.Keypad3)) && CurrentCube.frontRight != null)
+        else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.Keypad3)) && CurrentCube.Connections[3] != null)
         {
-            MoveQbert(currentCube.frontRight);
+            MoveQbert(currentCube.Connections[3]);
         }
         if (enableCollison)
         {

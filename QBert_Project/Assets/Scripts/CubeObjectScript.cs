@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CubeObjectScript : MonoBehaviour {
-    public CubeObjectScript frontLeft;
-    public CubeObjectScript frontRight;
-    public CubeObjectScript backRight;
-    public CubeObjectScript backLeft;
-
+    public CubeObjectScript[] Connections;
     int Steps;
 
     MeshRenderer cubeMesh;
