@@ -10,7 +10,6 @@ public class AgentBase : MonoBehaviour {
     {
         currentCube = Cube;
         transform.parent = Cube.transform;
-        StartCoroutine(Routine());
     }
 
     protected virtual IEnumerator Routine() { return null; }

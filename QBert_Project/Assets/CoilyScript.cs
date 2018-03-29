@@ -4,49 +4,75 @@ using UnityEngine;
 
 public class CoilyScript : AgentBase
 {
+    IDictionary<CubeObjectScript, CubeObjectScript> nodeParents = new Dictionary<CubeObjectScript, CubeObjectScript>();
     CubeObjectScript destinationCube;
-    CubeObjectScript previousDestinationCube;
-    List<CubeObjectScript> OpenList;
-    List<CubeObjectScript> ClosedList;
+    QbertScript qbert;
+    List<CubeObjectScript> Node = new List<CubeObjectScript>();
+
+ 
     bool Continue;
     // Use this for initialization
-    void Initialize()
+
+    public override void StartScript(CubeObjectScript Cube)
     {
-        ClosedList.Add(currentCube);
+        base.StartScript(Cube);
+        qbert = GameObject.FindGameObjectWithTag("Player").GetComponent<QbertScript>();
+        destinationCube = qbert.CurrentCube;
+        StartCoroutine(Routine());
 
     }
 
     protected override IEnumerator Routine()
     {
-        while (Continue)
+            BFS();
+         yield return new WaitForSeconds(1.0f);
+     
+    }
+
+    void BFS()
+    {
+        Queue<CubeObjectScript> queue = new Queue<CubeObjectScript>();
+        List<CubeObjectScript> exploredNodes = new List<CubeObjectScript>();
+
+        queue.Enqueue(currentCube);
+
+        while (queue.Count != 0)
         {
-            if (currentCube == destinationCube)
+           
+            CubeObjectScript currentNode = queue.Dequeue();
+            
+            foreach (CubeObjectScript node in currentNode.Connections)
             {
-
-                Debug.Log("Destination Cube");
-            }
-            else if (previousDestinationCube != destinationCube)
-            {
-                //TODO Grab new Current Destination cube.
-
-            }
-            else
-            {
-                foreach (CubeObjectScript cube in currentCube.Connections)
+                if (currentNode == destinationCube)
                 {
-                    if (ClosedList.Contains(cube))
+                    Debug.Log("Found");
+                    for (int i = 0; i < 20; i++)
                     {
-                        continue;
-                    }
-                    if (!OpenList.Contains(cube))
-                    {
-                        OpenList.Add(cube);
-                    }
+                        Debug.Log(currentNode);
+                        currentNode = currentNode.ParentNode;
 
-
+                    }
                 }
+                if (node == null)
+                {
+                    continue;
+                }
+                if (!exploredNodes.Contains(node))
+                {
+                    node.ParentNode = currentNode;
+                    exploredNodes.Add(node);
+
+               
+                
+
+                    queue.Enqueue(node);
+                }
+
             }
-            yield return new WaitForSeconds(1.0f);
+
         }
+        
     }
 }
+
+

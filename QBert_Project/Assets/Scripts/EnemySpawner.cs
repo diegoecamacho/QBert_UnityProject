@@ -42,6 +42,7 @@ public class EnemySpawner : MonoBehaviour {
             currentSpawnCube = SpawnCube.transform;
             GameObject Enemy = Instantiate(coilyEggPrefab, new Vector3(currentSpawnCube.position.x, currentSpawnCube.position.y + OffsetY, currentSpawnCube.position.z), currentSpawnCube.rotation);
             Enemy.GetComponent<AgentBase>().StartScript(SpawnCube);
+            ContinueGame = false; //ONLY RUNS ONCE
             yield return new WaitForSeconds(10.0f);
         }
 

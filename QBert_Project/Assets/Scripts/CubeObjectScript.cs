@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CubeObjectScript : MonoBehaviour {
     public CubeObjectScript[] Connections;
+    CubeObjectScript parentNode = null;
     int Steps;
 
     MeshRenderer cubeMesh;
@@ -16,6 +17,19 @@ public class CubeObjectScript : MonoBehaviour {
         get
         {
             return yOffset;
+        }
+    }
+
+    public CubeObjectScript ParentNode
+    {
+        get
+        {
+            return parentNode;
+        }
+
+        set
+        {
+            parentNode = value;
         }
     }
 
