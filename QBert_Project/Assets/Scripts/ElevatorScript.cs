@@ -20,10 +20,10 @@ public class ElevatorScript : CubeObjectScript {
         if (animator.enabled && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
         {
             
-            Qbert.CurrentCube = destinationCube;
-            Qbert.transform.parent = destinationCube.transform;
-            Qbert.Position = new Vector3(destinationCube.transform.position.x, destinationCube.transform.position.y + destinationCube.YOffset, destinationCube.transform.position.z);
-            Destroy(gameObject);
+           //Qbert.CurrentCube = destinationCube;
+           //Qbert.transform.parent = destinationCube.transform;
+           //Qbert.Position = new Vector3(destinationCube.transform.position.x, destinationCube.transform.position.y + destinationCube.YOffset, destinationCube.transform.position.z);
+            //Destroy(gameObject);
         }
     }
 

@@ -4,28 +4,59 @@ using UnityEngine;
 
 public class CoilyScript : AgentBase
 {
-    IDictionary<CubeObjectScript, CubeObjectScript> nodeParents = new Dictionary<CubeObjectScript, CubeObjectScript>();
     CubeObjectScript destinationCube;
+    CubeObjectScript startingNode;
     QbertScript qbert;
-    List<CubeObjectScript> Node = new List<CubeObjectScript>();
+    [SerializeField] float OffsetY = 0.5f;
+    Stack<CubeObjectScript> path = new Stack<CubeObjectScript>();
 
  
-    bool Continue;
+    bool Alive = true;
     // Use this for initialization
 
     public override void StartScript(CubeObjectScript Cube)
     {
         base.StartScript(Cube);
         qbert = GameObject.FindGameObjectWithTag("Player").GetComponent<QbertScript>();
+        startingNode = Cube;
         destinationCube = qbert.CurrentCube;
+        BFS();
         StartCoroutine(Routine());
 
     }
 
     protected override IEnumerator Routine()
     {
-            BFS();
-         yield return new WaitForSeconds(1.0f);
+        while (Alive)
+        {
+            if (destinationCube != qbert.CurrentCube)
+            {
+                startingNode = currentCube;
+                destinationCube = qbert.CurrentCube;
+                BFS();
+                foreach (var cube in path)
+                {
+                    Debug.Log(cube);
+                }
+            }
+            else
+            {
+                if (path.Count != 0)
+                {
+                    currentCube = path.Pop();
+                    if (currentCube == null)
+                    {
+                        Debug.Log("Elevator");
+                    }
+                    transform.position = new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + OffsetY, currentCube.transform.position.z);
+                }
+            }
+
+            yield return new WaitForSeconds(1.0f);
+       
+
+        }
+      
      
     }
 
@@ -33,6 +64,7 @@ public class CoilyScript : AgentBase
     {
         Queue<CubeObjectScript> queue = new Queue<CubeObjectScript>();
         List<CubeObjectScript> exploredNodes = new List<CubeObjectScript>();
+        Stack<CubeObjectScript> _path = new Stack<CubeObjectScript>();
 
         queue.Enqueue(currentCube);
 
@@ -46,15 +78,14 @@ public class CoilyScript : AgentBase
                 if (currentNode == destinationCube)
                 {
                     Debug.Log("Found");
-                    for (int i = 0; i < 20; i++)
-                    {
-                        Debug.Log(currentNode);
-                        currentNode = currentNode.ParentNode;
 
+                    while (currentNode != startingNode)
+                    {
+                        path.Push(currentNode);
+                        currentNode = currentNode.ParentNode;
                     }
                 }
-                if (node == null)
-                {
+                if(node == null){
                     continue;
                 }
                 if (!exploredNodes.Contains(node))
@@ -62,16 +93,12 @@ public class CoilyScript : AgentBase
                     node.ParentNode = currentNode;
                     exploredNodes.Add(node);
 
-               
-                
-
                     queue.Enqueue(node);
                 }
 
             }
 
         }
-        
     }
 }
 
