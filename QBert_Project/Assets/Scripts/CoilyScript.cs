@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CoilyScript : AgentBase
 {
+    public static CoilyScript coily;
+
     CubeObjectScript destinationCube;
     CubeObjectScript startingNode;
     QbertScript qbert;
@@ -16,6 +18,15 @@ public class CoilyScript : AgentBase
 
     public override void StartScript(CubeObjectScript Cube)
     {
+        if (coily == null)
+        {
+            coily = this;
+        }
+        else if (coily != this)
+        {
+            Destroy(gameObject);
+        }
+
         base.StartScript(Cube);
         qbert = GameObject.FindGameObjectWithTag("Player").GetComponent<QbertScript>();
         startingNode = Cube;
@@ -29,7 +40,7 @@ public class CoilyScript : AgentBase
     {
         while (Alive)
         {
-            if (destinationCube != qbert.CurrentCube)
+            if (destinationCube != qbert.CurrentCube && path.Count < 2)
             {
                 startingNode = currentCube;
                 destinationCube = qbert.CurrentCube;
@@ -41,18 +52,19 @@ public class CoilyScript : AgentBase
             }
             else
             {
-                if (path.Count != 0)
+                currentCube = path.Pop();
+                transform.parent = currentCube.transform;
+                if (transform.parent.tag == "Elevator")
                 {
-                    currentCube = path.Pop();
-                    if (currentCube == null)
-                    {
-                        Debug.Log("Elevator");
-                    }
+                    Destroy(gameObject);
+                }
+                else
+                {
                     transform.position = new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + OffsetY, currentCube.transform.position.z);
                 }
             }
 
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(0.7f);
        
 
         }
@@ -72,19 +84,21 @@ public class CoilyScript : AgentBase
         {
            
             CubeObjectScript currentNode = queue.Dequeue();
-            
+
+            if (currentNode == destinationCube)
+            {
+                Debug.Log("Found");
+
+                while (currentNode != startingNode)
+                {
+                    path.Push(currentNode);
+                    currentNode = currentNode.ParentNode;
+                }
+            }
+
             foreach (CubeObjectScript node in currentNode.Connections)
             {
-                if (currentNode == destinationCube)
-                {
-                    Debug.Log("Found");
-
-                    while (currentNode != startingNode)
-                    {
-                        path.Push(currentNode);
-                        currentNode = currentNode.ParentNode;
-                    }
-                }
+               
                 if(node == null){
                     continue;
                 }

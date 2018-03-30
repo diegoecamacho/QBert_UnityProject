@@ -52,7 +52,7 @@ public class CoilyEggScript : AgentBase {
 
                 }
             transform.position = new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + OffsetY, currentCube.transform.position.z);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.8f);
         }
     }      
 }

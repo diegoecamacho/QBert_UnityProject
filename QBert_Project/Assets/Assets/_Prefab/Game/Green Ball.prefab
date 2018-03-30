@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 23050588065229902}
   - component: {fileID: 114843789194719368}
   m_Layer: 0
-  m_Name: CoilyEgg
+  m_Name: Green Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,7 +57,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 0a178858c79e7f546a92fdbc53b741b2, type: 2}
+  - {fileID: 2100000, guid: 7bfd22b78950ac94fa04074d613099a9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

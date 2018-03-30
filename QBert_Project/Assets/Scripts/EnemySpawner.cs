@@ -15,6 +15,8 @@ public class EnemySpawner : MonoBehaviour {
 
     [SerializeField] CubeObjectScript SpawnCube;
 
+    GameObject spawnedEnemy;
+
     [SerializeField] float OffsetY;
 
     Transform currentSpawnCube;
@@ -33,27 +35,40 @@ public class EnemySpawner : MonoBehaviour {
 
     private void Start()
     {
+        currentSpawnCube = SpawnCube.transform;
         StartCoroutine(SpawnEnemy());
     }
 
     private IEnumerator SpawnEnemy(){
         while (ContinueGame)
         {
-            currentSpawnCube = SpawnCube.transform;
-            GameObject Enemy = Instantiate(coilyEggPrefab, new Vector3(currentSpawnCube.position.x, currentSpawnCube.position.y + OffsetY, currentSpawnCube.position.z), currentSpawnCube.rotation);
-            Enemy.GetComponent<AgentBase>().StartScript(SpawnCube);
+            int random = Random.Range(0, 3);
+            Debug.Log(random);
+            switch (random)
+            {
+                case 0:
+                    if (CoilyScript.coily == null)
+                    {
+                        spawnedEnemy = Instantiate(coilyEggPrefab, new Vector3(currentSpawnCube.position.x, currentSpawnCube.position.y + OffsetY, currentSpawnCube.position.z), currentSpawnCube.rotation);
+                        spawnedEnemy.GetComponent<AgentBase>().StartScript(SpawnCube);
+                    }
+                    break;
+                case 1:
+                    spawnedEnemy = Instantiate(greenBallPrefab, new Vector3(currentSpawnCube.position.x, currentSpawnCube.position.y + OffsetY, currentSpawnCube.position.z), currentSpawnCube.rotation);
+                    spawnedEnemy.GetComponent<AgentBase>().StartScript(SpawnCube);
+                    break;
+                case 2:
+                    spawnedEnemy = Instantiate(redBallPrefab, new Vector3(currentSpawnCube.position.x, currentSpawnCube.position.y + OffsetY, currentSpawnCube.position.z), currentSpawnCube.rotation);
+                    spawnedEnemy.GetComponent<AgentBase>().StartScript(SpawnCube);
+                    break;
+                default:
+                    break;
+            }
+            
+           
             ContinueGame = false; //ONLY RUNS ONCE
             yield return new WaitForSeconds(10.0f);
         }
 
     }
-	private void OnTriggerEnter2D(Collider2D collision)
-	{
-		    
-	}
-
-	private void OnTriggerEnter(Collider other)
-	{
-		    
-	}
 }
