@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class QbertScript : MonoBehaviour {
 
     //UI Elements:
-    Image[] liveImages;
+    [SerializeField] GameObject[] liveImages;
 
     int lives = 3;
 
@@ -39,7 +39,8 @@ public class QbertScript : MonoBehaviour {
     // Use this for initialization
 	void Start () {
         currentCube = transform.GetComponentInParent<CubeObjectScript>();
-	}
+        lives--;
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -54,13 +55,13 @@ public class QbertScript : MonoBehaviour {
         switch (lives)
         {
             case 0:
-                liveImages[0].enabled = false;
+                liveImages[0].SetActive(false);
                 break;
             case 1:
-                liveImages[1].enabled = false;
+                liveImages[1].SetActive(false);
                 break;
             case 2:
-                liveImages[2].enabled = false;
+                liveImages[2].SetActive(false);
                 break;
             default:
                 break;
@@ -100,12 +101,6 @@ public class QbertScript : MonoBehaviour {
         Position = new Vector3(CurrentCube.transform.position.x, CurrentCube.transform.position.y + CurrentCube.YOffset, CurrentCube.transform.position.z);
         enableCollison = true;
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Enemy")
-        {
-            lives--;
-        }
-    }
+        
 }
+

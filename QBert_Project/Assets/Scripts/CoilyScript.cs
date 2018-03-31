@@ -42,6 +42,7 @@ public class CoilyScript : AgentBase
     {
         while (Alive)
         {
+          
             if (destinationCube != qbert.CurrentCube && count >=2)
             {
                 startingNode = currentCube;
@@ -54,25 +55,34 @@ public class CoilyScript : AgentBase
             }
             else
             {
-                currentCube = path.Pop();
-                transform.parent = currentCube.transform;
-                count++;
-                if (transform.parent.tag == "Elevator")
+                if (path.Count == 0)
                 {
-                    Destroy(gameObject);
+                    continue;
                 }
                 else
                 {
-                    if (currentCube == null)
+                    currentCube = path.Pop();
+                    transform.parent = currentCube.transform;
+                    count++;
+                    if (transform.parent.tag == "Elevator")
                     {
-                       
-                        BFS();
+                        Destroy(gameObject);
                     }
                     else
                     {
-                        transform.position = new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + OffsetY, currentCube.transform.position.z);
+                        if (currentCube == null)
+                        {
+
+                            BFS();
+                        }
+                        else
+                        {
+                            transform.position = new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + OffsetY, currentCube.transform.position.z);
+                        }
                     }
+
                 }
+               
 
             }
 

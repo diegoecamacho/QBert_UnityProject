@@ -9,6 +9,8 @@ public class EnemySpawner : MonoBehaviour {
 
      public static bool ContinueGame = true;
 
+    [SerializeField] float delay;
+
     [SerializeField] GameObject coilyEggPrefab;
     [SerializeField] GameObject greenBallPrefab;
     [SerializeField] GameObject redBallPrefab;
@@ -67,7 +69,7 @@ public class EnemySpawner : MonoBehaviour {
             
            
          
-            yield return new WaitForSeconds(10.0f);
+            yield return new WaitForSeconds(delay);
         }
 
     }

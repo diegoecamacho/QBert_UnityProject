@@ -1674,6 +1674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ea038a1dc85a044b2bed0958391f1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  delay: 8
   coilyEggPrefab: {fileID: 1631141615422622, guid: 9f44b8b866f3837419281e5c4d863a6c,
     type: 2}
   greenBallPrefab: {fileID: 1631141615422622, guid: 0bfe4edb2797cfe4da1fc36d24db8219,
@@ -3821,6 +3822,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114288027525399352, guid: 81ead81bad79b471f967a11957fded13,
+        type: 2}
+      propertyPath: liveImages.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 114002178576030528, guid: 81ead81bad79b471f967a11957fded13,
         type: 2}
       propertyPath: Connections.Array.size
@@ -4662,6 +4668,21 @@ Prefab:
       propertyPath: m_TagString
       value: Elevator
       objectReference: {fileID: 0}
+    - target: {fileID: 114288027525399352, guid: 81ead81bad79b471f967a11957fded13,
+        type: 2}
+      propertyPath: liveImages.Array.data[2]
+      value: 
+      objectReference: {fileID: 1484329507}
+    - target: {fileID: 114288027525399352, guid: 81ead81bad79b471f967a11957fded13,
+        type: 2}
+      propertyPath: liveImages.Array.data[1]
+      value: 
+      objectReference: {fileID: 447418332}
+    - target: {fileID: 114288027525399352, guid: 81ead81bad79b471f967a11957fded13,
+        type: 2}
+      propertyPath: liveImages.Array.data[0]
+      value: 
+      objectReference: {fileID: 1223494165}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 81ead81bad79b471f967a11957fded13, type: 2}
   m_IsPrefabParent: 0
