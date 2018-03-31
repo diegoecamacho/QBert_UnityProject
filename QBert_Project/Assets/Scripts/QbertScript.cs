@@ -1,8 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QbertScript : MonoBehaviour {
+
+    //UI Elements:
+    Image[] liveImages;
+
+    int lives = 3;
+
     private CubeObjectScript currentCube;
 
     bool enableCollison = false;
@@ -37,7 +45,26 @@ public class QbertScript : MonoBehaviour {
 	void Update ()
     {
         InputManager();
+        UpdateLives();
 
+    }
+
+    private void UpdateLives()
+    {
+        switch (lives)
+        {
+            case 0:
+                liveImages[0].enabled = false;
+                break;
+            case 1:
+                liveImages[1].enabled = false;
+                break;
+            case 2:
+                liveImages[2].enabled = false;
+                break;
+            default:
+                break;
+        }
     }
 
     private void InputManager()
@@ -72,5 +99,13 @@ public class QbertScript : MonoBehaviour {
         transform.parent = CurrentCube.transform;
         Position = new Vector3(CurrentCube.transform.position.x, CurrentCube.transform.position.y + CurrentCube.YOffset, CurrentCube.transform.position.z);
         enableCollison = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Enemy")
+        {
+            lives--;
+        }
     }
 }

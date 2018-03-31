@@ -411,6 +411,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4402870148500954}
   - component: {fileID: 114972342791844850}
+  - component: {fileID: 65526766411960480}
   m_Layer: 0
   m_Name: Coily
   m_TagString: Untagged
@@ -596,7 +597,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1880174307768660}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -170.36176, y: 229.63303, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 4564913129894338}
@@ -940,6 +941,18 @@ Transform:
   m_Father: {fileID: 4724625556802676}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &65526766411960480
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1880174307768660}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.2, z: 1}
+  m_Center: {x: 0, y: 0.7, z: 0}
 --- !u!114 &114972342791844850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -951,6 +964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b119acf60c84414eb39addd8b2600f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OffsetY: 0.5
 --- !u!137 &137267445145319220
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -7,7 +7,7 @@ public class EnemySpawner : MonoBehaviour {
 
     public static EnemySpawner instance = null;
 
-     bool ContinueGame = true;
+     public static bool ContinueGame = true;
 
     [SerializeField] GameObject coilyEggPrefab;
     [SerializeField] GameObject greenBallPrefab;
@@ -66,7 +66,7 @@ public class EnemySpawner : MonoBehaviour {
             }
             
            
-            ContinueGame = false; //ONLY RUNS ONCE
+         
             yield return new WaitForSeconds(10.0f);
         }
 

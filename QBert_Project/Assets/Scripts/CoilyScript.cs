@@ -11,8 +11,10 @@ public class CoilyScript : AgentBase
     QbertScript qbert;
     [SerializeField] float OffsetY = 0.5f;
     Stack<CubeObjectScript> path = new Stack<CubeObjectScript>();
+    int count = 0;
 
- 
+
+
     bool Alive = true;
     // Use this for initialization
 
@@ -40,7 +42,7 @@ public class CoilyScript : AgentBase
     {
         while (Alive)
         {
-            if (destinationCube != qbert.CurrentCube && path.Count < 2)
+            if (destinationCube != qbert.CurrentCube && count >=2)
             {
                 startingNode = currentCube;
                 destinationCube = qbert.CurrentCube;
@@ -54,14 +56,24 @@ public class CoilyScript : AgentBase
             {
                 currentCube = path.Pop();
                 transform.parent = currentCube.transform;
+                count++;
                 if (transform.parent.tag == "Elevator")
                 {
                     Destroy(gameObject);
                 }
                 else
                 {
-                    transform.position = new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + OffsetY, currentCube.transform.position.z);
+                    if (currentCube == null)
+                    {
+                       
+                        BFS();
+                    }
+                    else
+                    {
+                        transform.position = new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + OffsetY, currentCube.transform.position.z);
+                    }
                 }
+
             }
 
             yield return new WaitForSeconds(0.7f);
@@ -74,6 +86,8 @@ public class CoilyScript : AgentBase
 
     void BFS()
     {
+        count = 0;
+
         Queue<CubeObjectScript> queue = new Queue<CubeObjectScript>();
         List<CubeObjectScript> exploredNodes = new List<CubeObjectScript>();
         Stack<CubeObjectScript> _path = new Stack<CubeObjectScript>();

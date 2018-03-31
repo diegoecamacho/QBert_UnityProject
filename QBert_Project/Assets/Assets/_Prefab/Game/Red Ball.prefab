@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33427367006332196}
   - component: {fileID: 135791554431033316}
   - component: {fileID: 23050588065229902}
-  - component: {fileID: 114843789194719368}
+  - component: {fileID: 114617827718909732}
   m_Layer: 0
   m_Name: Red Ball
   m_TagString: Untagged
@@ -84,7 +84,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1631141615422622}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114843789194719368
+--- !u!114 &114617827718909732
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -92,12 +92,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1631141615422622}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 101eb7f3661907c43ba241870f637c8c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5be37f5f501873a4296b6e0ce9925e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   OffsetY: 1
-  coilyPrefab: {fileID: 1880174307768660, guid: 12698b48b735ee44b8c8c696549c9ec9,
-    type: 2}
 --- !u!135 &135791554431033316
 SphereCollider:
   m_ObjectHideFlags: 1
