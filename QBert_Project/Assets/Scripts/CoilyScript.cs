@@ -44,7 +44,6 @@ public class CoilyScript : AgentBase
         {
             if (currentCube == qbert.CurrentCube)
             {
-                Debug.Log("SameCube");
                 yield return null;
                    
             }
@@ -52,14 +51,14 @@ public class CoilyScript : AgentBase
             {
                 if (destinationCube != qbert.CurrentCube && path.Count < 2)
                 {
-                    Debug.Log("Destination");
+                 
                     destinationCube = qbert.CurrentCube;
                     BFS(currentCube , qbert.CurrentCube);
                 }
                 else
                 {
                     count++;
-                    Debug.Log("Pop");
+                   
                  if (path.Count != 0)
                  {
                     currentCube = path.Pop();
@@ -67,19 +66,19 @@ public class CoilyScript : AgentBase
                     
                     if (transform.parent.tag == "Elevator")
                     {
-                        Debug.Log("Elevator");
+                       
                         Destroy(gameObject);
                     }
                     else
                     {
                         if (currentCube == null)
                         {
-                            Debug.Log("Cube Null BFS");
+                          
                             BFS(currentCube, qbert.CurrentCube);
                         }
                         else
                         {
-                            Debug.Log("Move Coily");
+                        
                             transform.position = new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + OffsetY, currentCube.transform.position.z);
                         }
                     }
@@ -97,7 +96,7 @@ public class CoilyScript : AgentBase
         Queue<CubeObjectScript> queue = new Queue<CubeObjectScript>();
         List<CubeObjectScript> exploredNodes = new List<CubeObjectScript>();
         Stack<CubeObjectScript> _path = new Stack<CubeObjectScript>();
-        Debug.Log("Enter");
+       
         count = 0;
 
         if (startNode == endNode)
@@ -108,16 +107,16 @@ public class CoilyScript : AgentBase
 
         while (queue.Count != 0)
         {
-            Debug.Log("While");
+
             CubeObjectScript currentNode = queue.Dequeue();
 
             if (currentNode == endNode)
             {
-                Debug.Log("Found");
+           
 
                 while (currentNode != startNode)
                 {
-                    Debug.Log("Path");
+
                     path.Push(currentNode);
                     currentNode = currentNode.ParentNode;
                 }
@@ -125,15 +124,15 @@ public class CoilyScript : AgentBase
 
             foreach (CubeObjectScript node in currentNode.Connections)
             {
-                Debug.Log("Searching");
+               
                
                 if(node == null){
-                    Debug.Log("Null");
+                  
                     continue;
                 }
                 if (!exploredNodes.Contains(node))
                 {
-                    Debug.Log("Contains");
+                 
                     node.ParentNode = currentNode;
                     exploredNodes.Add(node);
 

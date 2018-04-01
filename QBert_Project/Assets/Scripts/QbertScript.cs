@@ -101,16 +101,32 @@ public class QbertScript : MonoBehaviour {
     private void MoveQbert(CubeObjectScript destinationCube)
     {
         animator.SetBool("Jump", true);
-     
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("JumpState") && !!animator.IsInTransition(0))
+        StartCoroutine(MovementWait(destinationCube));
+
+         
+    }
+
+    IEnumerator MovementWait(CubeObjectScript destinationCube){
+        bool Continue = true;
+        bool InAnimation = false;
+        while (Continue)
         {
-            Debug.Log
-            CurrentCube = destinationCube;
-            transform.parent = CurrentCube.transform;
-            Position = new Vector3(CurrentCube.transform.position.x, CurrentCube.transform.position.y + CurrentCube.YOffset, CurrentCube.transform.position.z);
-            enableCollison = true;
+            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            if(animator.GetCurrentAnimatorStateInfo(0).IsName("JumpState")){
+                continue;
+
+            }
+            else{
+                Continue = false;
+                CurrentCube = destinationCube;
+                transform.parent = CurrentCube.transform;
+                Position = new Vector3(CurrentCube.transform.position.x, CurrentCube.transform.position.y + CurrentCube.YOffset, CurrentCube.transform.position.z);
+                enableCollison = true; 
+
+                
+            }
+            yield return null;
         }
-        
     }
         
 }
