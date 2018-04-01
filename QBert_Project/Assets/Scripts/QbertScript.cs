@@ -8,6 +8,7 @@ public class QbertScript : MonoBehaviour {
 
     //UI Elements:
     [SerializeField] GameObject[] liveImages;
+    Animator animator;
 
     int lives = 3;
 
@@ -39,12 +40,15 @@ public class QbertScript : MonoBehaviour {
     // Use this for initialization
 	void Start () {
         currentCube = transform.GetComponentInParent<CubeObjectScript>();
+        animator = GetComponent<Animator>();
         lives--;
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
+        Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("JumpState"));
+        Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"));
         InputManager();
         UpdateLives();
 
@@ -96,10 +100,17 @@ public class QbertScript : MonoBehaviour {
 
     private void MoveQbert(CubeObjectScript destinationCube)
     {
-        CurrentCube = destinationCube;
-        transform.parent = CurrentCube.transform;
-        Position = new Vector3(CurrentCube.transform.position.x, CurrentCube.transform.position.y + CurrentCube.YOffset, CurrentCube.transform.position.z);
-        enableCollison = true;
+        animator.SetBool("Jump", true);
+     
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("JumpState") && !!animator.IsInTransition(0))
+        {
+            Debug.Log
+            CurrentCube = destinationCube;
+            transform.parent = CurrentCube.transform;
+            Position = new Vector3(CurrentCube.transform.position.x, CurrentCube.transform.position.y + CurrentCube.YOffset, CurrentCube.transform.position.z);
+            enableCollison = true;
+        }
+        
     }
         
 }
