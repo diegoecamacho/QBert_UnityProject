@@ -10,11 +10,24 @@ public class QbertScript : MonoBehaviour {
     [SerializeField] GameObject[] liveImages;
     Animator animator;
 
+    enum Directions
+    {
+        UPLEFT,
+        UPRIGHT,
+        DOWNLEFT,
+        DOWNRIGHT
+    };
+
     int lives = 3;
 
     private CubeObjectScript currentCube;
 
     bool enableCollison = false;
+    bool InputAllowed = true;
+
+    CubeObjectScript destinationNode;
+
+    int animationNum;
 
     public CubeObjectScript CurrentCube
     {
@@ -47,8 +60,8 @@ public class QbertScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("JumpState"));
-        Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"));
+        //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("JumpState"));
+        //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"));
         InputManager();
         UpdateLives();
 
@@ -74,60 +87,60 @@ public class QbertScript : MonoBehaviour {
 
     private void InputManager()
     {
-        if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.Keypad7)) && CurrentCube.Connections[0] != null)
-        {
-            MoveQbert(currentCube.Connections[0]);
-        }
-        else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Keypad9)) && CurrentCube.Connections[1] != null)
-        {
-            MoveQbert(currentCube.Connections[1]);
-        }
-        else if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Keypad1)) && CurrentCube.Connections[2] != null)
-        {
-            MoveQbert(currentCube.Connections[2]);
-        }
-        else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.Keypad3)) && CurrentCube.Connections[3] != null)
-        {
-            MoveQbert(currentCube.Connections[3]);
-        }
-        if (enableCollison)
-        {
-            gameObject.GetComponent<BoxCollider>().enabled = enableCollison;
-        }
+       // if (InputAllowed)
+        //{
+            if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.Keypad7)) && CurrentCube.Connections[0] != null)
+            {
+                MoveQbert(CurrentCube.Connections[0],Directions.UPLEFT);
+            }
+            else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Keypad9)) && CurrentCube.Connections[1] != null)
+            {
+                MoveQbert(CurrentCube.Connections[1],Directions.UPRIGHT);
+            }
+            else if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Keypad1)) && CurrentCube.Connections[2] != null)
+            {
+                MoveQbert(CurrentCube.Connections[2],Directions.DOWNLEFT);
+            }
+            else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.Keypad3)) && CurrentCube.Connections[3] != null)
+            {
+                MoveQbert(CurrentCube.Connections[3],Directions.DOWNRIGHT);
+            }
+            if (enableCollison)
+            {
+                gameObject.GetComponent<BoxCollider>().enabled = enableCollison;
+            }
+
+        //}
+          
+  
+       
         
 
     }
 
-    private void MoveQbert(CubeObjectScript destinationCube)
+    private void MoveQbert(CubeObjectScript cubeObject , Directions directions)
     {
-        animator.SetBool("Jump", true);
-        StartCoroutine(MovementWait(destinationCube));
+        Debug.Log((int)directions);
+        InputAllowed = false;
 
-         
-    }
-
-    IEnumerator MovementWait(CubeObjectScript destinationCube){
-        bool Continue = true;
-        bool InAnimation = false;
-        while (Continue)
-        {
-            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
-            if(animator.GetCurrentAnimatorStateInfo(0).IsName("JumpState")){
-                continue;
-
-            }
-            else{
-                Continue = false;
-                CurrentCube = destinationCube;
-                transform.parent = CurrentCube.transform;
-                Position = new Vector3(CurrentCube.transform.position.x, CurrentCube.transform.position.y + CurrentCube.YOffset, CurrentCube.transform.position.z);
-                enableCollison = true; 
-
-                
-            }
-            yield return null;
-        }
-    }
         
+        CurrentCube = cubeObject;
+        transform.parent = CurrentCube.transform;
+        Position = new Vector3(CurrentCube.transform.position.x, CurrentCube.transform.position.y + CurrentCube.YOffset, CurrentCube.transform.position.z);
+
+       // animator.applyRootMotion = false;
+       // animator.SetBool("Jump", true);
+        //animator.SetInteger("Direction", (int)directions);
+
+    }
+
+
+    private void Move()
+    {
+        // animator.SetBool("Jump", false);
+        //animator.applyRootMotion = true;
+        enableCollison = true;
+        InputAllowed = true;
+    }
 }
 
