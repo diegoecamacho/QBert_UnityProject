@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CubeObjectScript : MonoBehaviour {
-    public CubeObjectScript frontLeft;
-    public CubeObjectScript frontRight;
-    public CubeObjectScript backRight;
-    public CubeObjectScript backLeft;
-
+    public CubeObjectScript[] Connections;
+    CubeObjectScript parentNode = null;
+    int nodeDirection;
     int Steps;
 
     MeshRenderer cubeMesh;
@@ -20,6 +18,32 @@ public class CubeObjectScript : MonoBehaviour {
         get
         {
             return yOffset;
+        }
+    }
+
+    public CubeObjectScript ParentNode
+    {
+        get
+        {
+            return parentNode;
+        }
+
+        set
+        {
+            parentNode = value;
+        }
+    }
+
+    public int NodeDirection
+    {
+        get
+        {
+            return nodeDirection;
+        }
+
+        set
+        {
+            nodeDirection = value;
         }
     }
 

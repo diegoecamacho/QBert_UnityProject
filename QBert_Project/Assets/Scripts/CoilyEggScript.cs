@@ -11,52 +11,49 @@ public class CoilyEggScript : AgentBase {
 
     [SerializeField] GameObject coilyPrefab;
 
+    public override void StartScript(CubeObjectScript Cube)
+    {
+        base.StartScript(Cube);
+        StartCoroutine(Routine());
+    }
+
     protected override IEnumerator Routine()
     {
         while (Continue)
-        {            
+        {
                 randomNum = Random.Range(0, 2);
                 if (randomNum == 0)
                 {
-                    
-                    if (currentCube.frontLeft == null)
+                    if (currentCube.Connections[2] == null)
                     {
-                        Debug.Log("LEFT NONE");
-                    Instantiate(coilyPrefab, new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + 0.5f, currentCube.transform.position.z), new Quaternion());
-                        Destroy(gameObject);
-                    }
-                    else
-                    {
-                        currentCube = currentCube.frontLeft;
-                    }
-
-
-                }
-                else
-                {
-                    if (currentCube.frontRight == null)
-                    {
-                        Debug.Log("RIGHT NONE");
-                        Instantiate(coilyPrefab, new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + 0.5f, currentCube.transform.position.z),new Quaternion());
+                        GameObject Coily = Instantiate(coilyPrefab, new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + 0.5f, currentCube.transform.position.z), coilyPrefab.transform.localRotation ,currentCube.transform);
+                        Coily.GetComponent<AgentBase>().StartScript(currentCube);
                         Continue = false;
                         Destroy(gameObject);
                     }
                     else
                     {
-                        currentCube = currentCube.frontRight;
+                        currentCube = currentCube.Connections[2];
+                    }
+                }
+                else
+                {
+                    if (currentCube.Connections[3] == null)
+                    {
+                    GameObject Coily = Instantiate(coilyPrefab, new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + 0.5f, currentCube.transform.position.z),coilyPrefab.transform.localRotation,currentCube.transform);
+                        Coily.GetComponent<AgentBase>().StartScript(currentCube);
+                        Continue = false;
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        currentCube = currentCube.Connections[3];
                     }
 
                 }
-
             transform.position = new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + OffsetY, currentCube.transform.position.z);
-                Debug.Log("SnakeMove");
-           
-
-            yield return new WaitForSeconds(2.0f);
+            yield return new WaitForSeconds(0.8f);
         }
-    }
-        
-        
-        
+    }      
 }
 

@@ -21,8 +21,8 @@ public class ElevatorScript : CubeObjectScript {
         {
             
             Qbert.CurrentCube = destinationCube;
-            Qbert.transform.parent = destinationCube.transform;
-            Qbert.Position = new Vector3(destinationCube.transform.position.x, destinationCube.transform.position.y + destinationCube.YOffset, destinationCube.transform.position.z);
+           Qbert.transform.parent = destinationCube.transform;
+           Qbert.Position = new Vector3(destinationCube.transform.position.x, destinationCube.transform.position.y + destinationCube.YOffset, destinationCube.transform.position.z);
             Destroy(gameObject);
         }
     }
