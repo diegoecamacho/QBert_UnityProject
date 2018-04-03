@@ -83,7 +83,7 @@ public class QbertScript : MonoBehaviour {
     /// </summary>
 	void Update ()
     {
-        if (QbertAnimation != null && rotate)
+        if (QbertAnimation != null)
         {
             Debug.Log("Rotate");
             transform.rotation = QbertAnimation.transform.rotation;
@@ -151,7 +151,6 @@ public class QbertScript : MonoBehaviour {
     /// <param name="directions">Directions.</param>
     void MoveQbert(CubeObjectScript cubeObject , Directions directions)
     {
-        Debug.Log((int)directions);
         InputAllowed = false;
 
         QbertMesh.SetActive(false);
@@ -164,7 +163,7 @@ public class QbertScript : MonoBehaviour {
         QbertAnimator.SetInteger("Direction", (int)directions);
         
         CurrentCube = cubeObject;
-         transform.parent = CurrentCube.transform;
+        transform.parent = CurrentCube.transform;
         Position = new Vector3(CurrentCube.transform.position.x, CurrentCube.transform.position.y + CurrentCube.YOffset, CurrentCube.transform.position.z);
 
     }
@@ -172,7 +171,6 @@ public class QbertScript : MonoBehaviour {
 
     public static void Move()
     {
-        rotate = true;
         QbertMesh.SetActive(true);
         enableCollison = true;
         InputAllowed = true;

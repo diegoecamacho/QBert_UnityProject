@@ -61,7 +61,7 @@ public class CoilyScript : AgentBase
         {
             if (instantiate)
             {
-                //instantiate = false;
+                
                 if (currentCube == qbert.CurrentCube)
                 {
                     yield return null;
@@ -69,7 +69,7 @@ public class CoilyScript : AgentBase
                 }
                 else
                 {
-                    if (destinationCube != qbert.CurrentCube && path.Count < 2)
+                    if (destinationCube != qbert.CurrentCube && path.Count < 3)
                     {
                         destinationCube = qbert.CurrentCube;
                         BFS(currentCube, qbert.CurrentCube);
@@ -77,26 +77,28 @@ public class CoilyScript : AgentBase
                     else
                     {
                         count++;
-
-                        if (path.Count != 0)
+                        if (transform.parent.tag == "Elevator")
                         {
-                            currentCube = path.Pop();
-                            transform.parent = currentCube.transform;
-                            if (currentCube == null)
+                            Debug.Log("Elevator");
+                            // Destroy(gameObject);
+                        }
+                        else
+                        {
+
+                            if (path.Count != 0)
                             {
-                                BFS(currentCube, qbert.CurrentCube);
-                            }
-                            else
-                            {
-                                transform.position = new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + OffsetY, currentCube.transform.position.z);
-                                if (count == 1)
+                                currentCube = path.Pop();
+
+                                if (currentCube == null)
+                                {
+                                    BFS(currentCube, qbert.CurrentCube);
+                                }
+                                else
                                 {
                                     MoveCoily();
-                                    
                                 }
-                                
-                            }
 
+                            }
                         }
                     }
                     yield return new WaitForSeconds(0.6f);
@@ -110,21 +112,16 @@ public class CoilyScript : AgentBase
    
 
     void MoveCoily(){
+        instantiate = false;
+       coilyAnimGameobject = Instantiate(CoilyAnimPrefab, transform.position, transform.rotation,transform.parent);
+       CoilyMesh.SetActive(false);
+       Animator coilyAnimation = coilyAnimGameobject.GetComponent<Animator>();
+       coilyAnimation.SetBool("Jump", true);
+       coilyAnimation.SetInteger("Direction", currentCube.NodeDirection);
 
-        ///TODO:
+        transform.SetParent(currentCube.transform, false);
+        transform.position = new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + OffsetY, currentCube.transform.position.z);
 
-        //coilyAnimGameobject = Instantiate(CoilyAnimPrefab, transform.position, transform.rotation,transform.parent);
-        //CoilyMesh.SetActive(false);
-        //Animator coilyAnimation = coilyAnimGameobject.GetComponent<Animator>();
-        //coilyAnimation.SetBool("Jump", true);
-        //coilyAnimation.SetInteger("Direction", currentCube.NodeDirection);
-
-        
-        //if (transform.parent.tag == "Elevator")
-        //{
-
-           // Destroy(gameObject);
-        //}
         
     }
 

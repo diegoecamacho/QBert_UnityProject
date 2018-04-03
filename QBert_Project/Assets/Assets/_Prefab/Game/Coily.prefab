@@ -410,8 +410,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4402870148500954}
-  - component: {fileID: 114972342791844850}
   - component: {fileID: 65526766411960480}
+  - component: {fileID: 114578186292753440}
   m_Layer: 0
   m_Name: Coily
   m_TagString: Untagged
@@ -953,7 +953,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.2, z: 1}
   m_Center: {x: 0, y: 0.7, z: 0}
---- !u!114 &114972342791844850
+--- !u!114 &114578186292753440
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
