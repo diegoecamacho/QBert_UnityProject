@@ -26,7 +26,7 @@ public class CoilyEggScript : AgentBase {
                 {
                     if (currentCube.Connections[2] == null)
                     {
-                        GameObject Coily = Instantiate(coilyPrefab, new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + 0.5f, currentCube.transform.position.z), new Quaternion());
+                        GameObject Coily = Instantiate(coilyPrefab, new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + 0.5f, currentCube.transform.position.z), coilyPrefab.transform.localRotation ,currentCube.transform);
                         Coily.GetComponent<AgentBase>().StartScript(currentCube);
                         Continue = false;
                         Destroy(gameObject);
@@ -40,7 +40,7 @@ public class CoilyEggScript : AgentBase {
                 {
                     if (currentCube.Connections[3] == null)
                     {
-                        GameObject Coily = Instantiate(coilyPrefab, new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + 0.5f, currentCube.transform.position.z),new Quaternion());
+                    GameObject Coily = Instantiate(coilyPrefab, new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + 0.5f, currentCube.transform.position.z),coilyPrefab.transform.localRotation,currentCube.transform);
                         Coily.GetComponent<AgentBase>().StartScript(currentCube);
                         Continue = false;
                         Destroy(gameObject);

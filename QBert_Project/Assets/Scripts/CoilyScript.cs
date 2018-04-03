@@ -6,8 +6,14 @@ public class CoilyScript : AgentBase
 {
     public static CoilyScript coily;
 
+    static GameObject CoilyMesh;
+
     QbertScript qbert;
     [SerializeField] float OffsetY = 0.5f;
+
+    [SerializeField]GameObject CoilyAnimPrefab;
+
+   
     Stack<CubeObjectScript> path = new Stack<CubeObjectScript>();
     int count = 0;
 
@@ -16,87 +22,122 @@ public class CoilyScript : AgentBase
     bool Alive = true;
     CubeObjectScript destinationCube;
 
-    // Use this for initialization
+    GameObject coilyAnimGameobject;
+
+    public int NodeDirection = 0;
+    private static bool instantiate = true;
 
     public override void StartScript(CubeObjectScript Cube)
+	{
+	    if (coily == null)
+	    {
+	        coily = this;
+	    }
+	    else if (coily != this)
+	    {
+	        Destroy(gameObject);
+	    }
+
+	    base.StartScript(Cube);
+
+	    qbert = GameObject.FindGameObjectWithTag("Player").GetComponent<QbertScript>();
+	    CoilyMesh = GameObject.FindGameObjectWithTag("CoilyMesh");
+	    destinationCube = qbert.CurrentCube;
+	    BFS(currentCube, qbert.CurrentCube);
+	    StartCoroutine(Routine());
+
+	}
+    private void Update()
     {
-        if (coily == null)
-        {
-            coily = this;
-        }
-        else if (coily != this)
-        {
-            Destroy(gameObject);
-        }
-
-        base.StartScript(Cube);
-
-        qbert = GameObject.FindGameObjectWithTag("Player").GetComponent<QbertScript>();
-        destinationCube = qbert.CurrentCube;
-        BFS(currentCube, qbert.CurrentCube);
-        StartCoroutine(Routine());
-
+            if (coilyAnimGameobject != null)
+            {
+                transform.rotation = coilyAnimGameobject.transform.rotation;
+            }
     }
 
     protected override IEnumerator Routine()
     {
         while (Alive)
         {
-            if (currentCube == qbert.CurrentCube)
+            if (instantiate)
             {
-                yield return null;
-                   
-            }
-            else
-            {
-                if (destinationCube != qbert.CurrentCube && path.Count < 2)
+                
+                if (currentCube == qbert.CurrentCube)
                 {
-                 
-                    destinationCube = qbert.CurrentCube;
-                    BFS(currentCube , qbert.CurrentCube);
+                    yield return null;
+
                 }
                 else
                 {
-                    count++;
-                   
-                 if (path.Count != 0)
-                 {
-                    currentCube = path.Pop();
-                    transform.parent = currentCube.transform;
-                    
-                    if (transform.parent.tag == "Elevator")
+                    if (destinationCube != qbert.CurrentCube && path.Count < 3)
                     {
-                       
-                        Destroy(gameObject);
+                        destinationCube = qbert.CurrentCube;
+                        BFS(currentCube, qbert.CurrentCube);
                     }
                     else
                     {
-                        if (currentCube == null)
+                        count++;
+                        if (transform.parent.tag == "Elevator")
                         {
-                          
-                            BFS(currentCube, qbert.CurrentCube);
+                            Debug.Log("Elevator");
+                            // Destroy(gameObject);
                         }
                         else
                         {
-                        
-                            transform.position = new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + OffsetY, currentCube.transform.position.z);
+
+                            if (path.Count != 0)
+                            {
+                                currentCube = path.Pop();
+
+                                if (currentCube == null)
+                                {
+                                    BFS(currentCube, qbert.CurrentCube);
+                                }
+                                else
+                                {
+                                    MoveCoily();
+                                }
+
+                            }
                         }
                     }
-                 }
-               }
-               yield return new WaitForSeconds(0.6f);
-           }            
+                    yield return new WaitForSeconds(0.6f);
+                }
+            }
+            yield return null;
 
         }
     }
 
-    void BFS(CubeObjectScript startNode , CubeObjectScript endNode)
+   
+
+    void MoveCoily(){
+        instantiate = false;
+       coilyAnimGameobject = Instantiate(CoilyAnimPrefab, transform.position, transform.rotation,transform.parent);
+       CoilyMesh.SetActive(false);
+       Animator coilyAnimation = coilyAnimGameobject.GetComponent<Animator>();
+       coilyAnimation.SetBool("Jump", true);
+       coilyAnimation.SetInteger("Direction", currentCube.NodeDirection);
+
+        transform.SetParent(currentCube.transform, false);
+        transform.position = new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + OffsetY, currentCube.transform.position.z);
+
+        
+    }
+
+    public static void Move(){
+        CoilyMesh.SetActive(true);
+        instantiate = true;
+
+    }
+
+    void BFS(CubeObjectScript startNode, CubeObjectScript endNode)
     {
 
         Queue<CubeObjectScript> queue = new Queue<CubeObjectScript>();
         List<CubeObjectScript> exploredNodes = new List<CubeObjectScript>();
         Stack<CubeObjectScript> _path = new Stack<CubeObjectScript>();
-       
+
         count = 0;
 
         if (startNode == endNode)
@@ -112,37 +153,37 @@ public class CoilyScript : AgentBase
 
             if (currentNode == endNode)
             {
-           
 
                 while (currentNode != startNode)
                 {
-
                     path.Push(currentNode);
                     currentNode = currentNode.ParentNode;
                 }
+                //path.Push(currentNode);
+                //currentNode = currentNode.ParentNode;
             }
 
             foreach (CubeObjectScript node in currentNode.Connections)
             {
-               
-               
-                if(node == null){
-                  
+                NodeDirection++;
+                if (node == null)
+                {
+
                     continue;
                 }
                 if (!exploredNodes.Contains(node))
                 {
-                 
                     node.ParentNode = currentNode;
+                    node.NodeDirection = NodeDirection - 1;
+
                     exploredNodes.Add(node);
 
                     queue.Enqueue(node);
                 }
 
             }
+            NodeDirection = 0;
 
         }
     }
 }
-
-

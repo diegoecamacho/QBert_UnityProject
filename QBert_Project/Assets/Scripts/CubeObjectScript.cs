@@ -5,6 +5,7 @@ using UnityEngine;
 public class CubeObjectScript : MonoBehaviour {
     public CubeObjectScript[] Connections;
     CubeObjectScript parentNode = null;
+    int nodeDirection;
     int Steps;
 
     MeshRenderer cubeMesh;
@@ -30,6 +31,19 @@ public class CubeObjectScript : MonoBehaviour {
         set
         {
             parentNode = value;
+        }
+    }
+
+    public int NodeDirection
+    {
+        get
+        {
+            return nodeDirection;
+        }
+
+        set
+        {
+            nodeDirection = value;
         }
     }
 

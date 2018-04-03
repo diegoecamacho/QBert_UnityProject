@@ -12,16 +12,15 @@ public class ButtomController : MonoBehaviour {
         ui = GameObject.FindGameObjectWithTag("UIController").GetComponent<UIController>();
     }
 
+    public void LoadScene(string sceneName){
+        SceneManager.LoadScene(sceneName);
+    }
+
     public void ResumeButtom()
     {
         Time.timeScale = 1;
         ui.InGameUI.SetActive(!ui.InGameUI.activeSelf);
         ui.PauseMenu.SetActive(!ui.PauseMenu.activeSelf);
-    }
-
-    public void MainMenuReturn()
-    {
-        SceneManager.LoadScene("Main Menu");
     }
 
     public void ExitGame() {
