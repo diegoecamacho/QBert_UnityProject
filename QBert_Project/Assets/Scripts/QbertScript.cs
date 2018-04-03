@@ -5,11 +5,22 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class QbertScript : MonoBehaviour {
+/// Static Members:
+    static bool enableCollison = false;
+    static bool InputAllowed = true;
+    static GameObject QbertMesh;
+    static bool rotate = false;
 
-    //UI Elements:
+
+    ///UI Elements:
     [SerializeField] GameObject[] liveImages;
-    Animator animator;
 
+    /// <summary>
+    /// Animations
+    /// </summary>
+    [SerializeField] GameObject QbertAnim;
+
+   
     enum Directions
     {
         UPLEFT,
@@ -22,13 +33,17 @@ public class QbertScript : MonoBehaviour {
 
     private CubeObjectScript currentCube;
 
-    bool enableCollison = false;
-    bool InputAllowed = true;
-
     CubeObjectScript destinationNode;
+
+    GameObject QbertAnimation;
 
     int animationNum;
 
+
+    /// <summary>
+    /// Gets or sets the current cube.
+    /// </summary>
+    /// <value>The current cube.</value>
     public CubeObjectScript CurrentCube
     {
         get
@@ -41,6 +56,10 @@ public class QbertScript : MonoBehaviour {
             currentCube = value;
         }
     }
+    /// <summary>
+    /// Gets or sets the position.
+    /// </summary>
+    /// <value>The position.</value>
     public Vector3 Position{
         get{
             return transform.position;
@@ -50,23 +69,33 @@ public class QbertScript : MonoBehaviour {
         }
     }
 
-    // Use this for initialization
+    /// <summary>
+    /// Start this instance.
+    /// </summary>
 	void Start () {
         currentCube = transform.GetComponentInParent<CubeObjectScript>();
-        animator = GetComponent<Animator>();
+        QbertMesh = GameObject.FindGameObjectWithTag("PlayerMesh");
         lives--;
     }
 	
-	// Update is called once per frame
+	/// <summary>
+    /// Update this instance.
+    /// </summary>
 	void Update ()
     {
-        //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("JumpState"));
-        //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"));
+        if (QbertAnimation != null && rotate)
+        {
+            Debug.Log("Rotate");
+            transform.rotation = QbertAnimation.transform.rotation;
+        }
         InputManager();
         UpdateLives();
 
     }
 
+    /// <summary>
+    /// Updates the lives.
+    /// </summary>
     private void UpdateLives()
     {
         switch (lives)
@@ -85,62 +114,69 @@ public class QbertScript : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Manages Player Input.
+    /// </summary>
     private void InputManager()
     {
-       // if (InputAllowed)
-        //{
+        if (InputAllowed)
+        {
+            
             if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.Keypad7)) && CurrentCube.Connections[0] != null)
             {
-                MoveQbert(CurrentCube.Connections[0],Directions.UPLEFT);
+                MoveQbert(CurrentCube.Connections[0], Directions.UPLEFT);
             }
             else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Keypad9)) && CurrentCube.Connections[1] != null)
             {
-                MoveQbert(CurrentCube.Connections[1],Directions.UPRIGHT);
+                MoveQbert(CurrentCube.Connections[1], Directions.UPRIGHT);
             }
             else if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Keypad1)) && CurrentCube.Connections[2] != null)
             {
-                MoveQbert(CurrentCube.Connections[2],Directions.DOWNLEFT);
+                MoveQbert(CurrentCube.Connections[2], Directions.DOWNLEFT);
             }
             else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.Keypad3)) && CurrentCube.Connections[3] != null)
             {
-                MoveQbert(CurrentCube.Connections[3],Directions.DOWNRIGHT);
-            }
-            if (enableCollison)
-            {
-                gameObject.GetComponent<BoxCollider>().enabled = enableCollison;
+                MoveQbert(CurrentCube.Connections[3], Directions.DOWNRIGHT);
             }
 
-        //}
-          
-  
-       
-        
+            gameObject.GetComponent<BoxCollider>().enabled = enableCollison;
 
+        }
     }
 
-    private void MoveQbert(CubeObjectScript cubeObject , Directions directions)
+    /// <summary>
+    /// Moves Qbert
+    /// </summary>
+    /// <param name="cubeObject">Cube object.</param>
+    /// <param name="directions">Directions.</param>
+    void MoveQbert(CubeObjectScript cubeObject , Directions directions)
     {
         Debug.Log((int)directions);
         InputAllowed = false;
 
+        QbertMesh.SetActive(false);
+        enableCollison = false;
+
+        QbertAnimation = Instantiate(QbertAnim, Position, transform.rotation, transform.parent);
+        Animator QbertAnimator = QbertAnimation.GetComponent<Animator>();
+        QbertAnimator.applyRootMotion = false;
+        QbertAnimator.SetBool("Jump", true);
+        QbertAnimator.SetInteger("Direction", (int)directions);
         
         CurrentCube = cubeObject;
-        transform.parent = CurrentCube.transform;
+         transform.parent = CurrentCube.transform;
         Position = new Vector3(CurrentCube.transform.position.x, CurrentCube.transform.position.y + CurrentCube.YOffset, CurrentCube.transform.position.z);
-
-       // animator.applyRootMotion = false;
-       // animator.SetBool("Jump", true);
-        //animator.SetInteger("Direction", (int)directions);
 
     }
 
 
-    private void Move()
+    public static void Move()
     {
-        // animator.SetBool("Jump", false);
-        //animator.applyRootMotion = true;
+        rotate = true;
+        QbertMesh.SetActive(true);
         enableCollison = true;
         InputAllowed = true;
+
     }
 }
 

@@ -44,8 +44,8 @@ public class EnemySpawner : MonoBehaviour {
     private IEnumerator SpawnEnemy(){
         while (ContinueGame)
         {
+            ContinueGame = false; // Runs Only Once
             int random = Random.Range(0, 3);
-            Debug.Log(random);
             switch (random)
             {
                 case 0:

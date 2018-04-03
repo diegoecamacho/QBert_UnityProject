@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AgentBase : MonoBehaviour {
 
-   protected CubeObjectScript currentCube;
+    protected CubeObjectScript currentCube;
 
     public virtual void  StartScript(CubeObjectScript Cube)
     {
