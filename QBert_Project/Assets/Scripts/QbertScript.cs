@@ -85,7 +85,6 @@ public class QbertScript : MonoBehaviour {
     {
         if (QbertAnimation != null)
         {
-            Debug.Log("Rotate");
             transform.rotation = QbertAnimation.transform.rotation;
         }
         InputManager();
@@ -122,21 +121,53 @@ public class QbertScript : MonoBehaviour {
         if (InputAllowed)
         {
             
-            if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.Keypad7)) && CurrentCube.Connections[0] != null)
+            if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.Keypad7)))
             {
-                MoveQbert(CurrentCube.Connections[0], Directions.UPLEFT);
+                if (CurrentCube.Connections[0] == null)
+                {
+                    lives--;
+                }
+                else
+                {
+                    MoveQbert(CurrentCube.Connections[0], Directions.UPLEFT);
+                }
+                
+                
             }
-            else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Keypad9)) && CurrentCube.Connections[1] != null)
+            else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Keypad9)))
             {
-                MoveQbert(CurrentCube.Connections[1], Directions.UPRIGHT);
+                if (CurrentCube.Connections[1] == null)
+                {
+                    lives--;
+                }
+                else
+                {
+                    MoveQbert(CurrentCube.Connections[1], Directions.UPRIGHT);
+                }
             }
-            else if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Keypad1)) && CurrentCube.Connections[2] != null)
+            else if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Keypad1)))
             {
-                MoveQbert(CurrentCube.Connections[2], Directions.DOWNLEFT);
+                if (CurrentCube.Connections[2] == null)
+                {
+                    lives--;
+                }
+                else
+                {
+                    MoveQbert(CurrentCube.Connections[2], Directions.DOWNLEFT);
+                }
+
             }
             else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.Keypad3)) && CurrentCube.Connections[3] != null)
             {
-                MoveQbert(CurrentCube.Connections[3], Directions.DOWNRIGHT);
+                if (CurrentCube.Connections[3] == null)
+                {
+                    lives--;
+                }
+                else
+                {
+                    MoveQbert(CurrentCube.Connections[3], Directions.DOWNRIGHT);
+                }        
+
             }
 
             gameObject.GetComponent<BoxCollider>().enabled = enableCollison;
@@ -152,7 +183,6 @@ public class QbertScript : MonoBehaviour {
     void MoveQbert(CubeObjectScript cubeObject , Directions directions)
     {
         InputAllowed = false;
-
         QbertMesh.SetActive(false);
         enableCollison = false;
 
@@ -165,16 +195,31 @@ public class QbertScript : MonoBehaviour {
         CurrentCube = cubeObject;
         transform.parent = CurrentCube.transform;
         Position = new Vector3(CurrentCube.transform.position.x, CurrentCube.transform.position.y + CurrentCube.YOffset, CurrentCube.transform.position.z);
+      
 
     }
-
-
+ 
     public static void Move()
     {
         QbertMesh.SetActive(true);
         enableCollison = true;
         InputAllowed = true;
+       
 
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Enemy")
+        {
+            lives--;
+            Debug.Log("Touched");
+        }
+        if (other.tag == "GreenBall")
+        {
+            GameManager.score += 100;
+            Debug.Log("Touched");
+        }
     }
 }
 

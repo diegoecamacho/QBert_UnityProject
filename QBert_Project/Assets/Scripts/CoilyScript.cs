@@ -41,6 +41,7 @@ public class CoilyScript : AgentBase
 	    base.StartScript(Cube);
 
 	    qbert = GameObject.FindGameObjectWithTag("Player").GetComponent<QbertScript>();
+
 	    CoilyMesh = GameObject.FindGameObjectWithTag("CoilyMesh");
 	    destinationCube = qbert.CurrentCube;
 	    BFS(currentCube, qbert.CurrentCube);
@@ -77,13 +78,7 @@ public class CoilyScript : AgentBase
                     else
                     {
                         count++;
-                        if (transform.parent.tag == "Elevator")
-                        {
-                            Debug.Log("Elevator");
-                            // Destroy(gameObject);
-                        }
-                        else
-                        {
+                  
 
                             if (path.Count != 0)
                             {
@@ -99,9 +94,9 @@ public class CoilyScript : AgentBase
                                 }
 
                             }
-                        }
+                       
                     }
-                    yield return new WaitForSeconds(0.6f);
+                    yield return new WaitForSeconds(0.4f);
                 }
             }
             yield return null;
@@ -112,7 +107,7 @@ public class CoilyScript : AgentBase
    
 
     void MoveCoily(){
-        instantiate = false;
+       instantiate = false;
        coilyAnimGameobject = Instantiate(CoilyAnimPrefab, transform.position, transform.rotation,transform.parent);
        CoilyMesh.SetActive(false);
        Animator coilyAnimation = coilyAnimGameobject.GetComponent<Animator>();
@@ -122,7 +117,14 @@ public class CoilyScript : AgentBase
         transform.SetParent(currentCube.transform, false);
         transform.position = new Vector3(currentCube.transform.position.x, currentCube.transform.position.y + OffsetY, currentCube.transform.position.z);
 
-        
+        if (transform.parent.tag == "Elevator")
+        {
+            Debug.Log("Elevator");
+            GameManager.score += 500;
+            Destroy(gameObject);
+        }
+
+
     }
 
     public static void Move(){
@@ -159,8 +161,6 @@ public class CoilyScript : AgentBase
                     path.Push(currentNode);
                     currentNode = currentNode.ParentNode;
                 }
-                //path.Push(currentNode);
-                //currentNode = currentNode.ParentNode;
             }
 
             foreach (CubeObjectScript node in currentNode.Connections)
@@ -186,4 +186,6 @@ public class CoilyScript : AgentBase
 
         }
     }
+
+   
 }

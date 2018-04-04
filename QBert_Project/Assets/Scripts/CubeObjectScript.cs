@@ -11,7 +11,15 @@ public class CubeObjectScript : MonoBehaviour {
     MeshRenderer cubeMesh;
     Material Untouched_Top;
 
+    public bool cubeFinished = false;
+
     [SerializeField] float yOffset;
+
+    public  Color CubeColor{
+    get{
+     return cubeMesh.material.color;
+    }    
+    }
 
     public float YOffset
     {
@@ -62,14 +70,13 @@ public class CubeObjectScript : MonoBehaviour {
             switch (Steps)
             {
                 case 1:
-                    cubeMesh.material.color = Color.white;
-                     break;
-                case 2:
-                    cubeMesh.material.color = Color.yellow;
-                    break;
-                case 3:
+                    GameManager.score += 25;
                     cubeMesh.material.color = Color.red;
-                    break;
+                    cubeFinished = true;
+                     break;
+                //case 2:
+                //    cubeMesh.material.color = Color.white;
+                //    break;
                 default:
                     break;
             }

@@ -8,6 +8,8 @@ TagManager:
   - UIController
   - PlayerMesh
   - CoilyMesh
+  - Cube
+  - Enemy
   layers:
   - Default
   - TransparentFX

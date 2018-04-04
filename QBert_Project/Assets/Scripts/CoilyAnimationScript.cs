@@ -5,7 +5,11 @@ using UnityEngine;
 public class CoilyAnimationScript : MonoBehaviour {
 
     public void DestroyAnimation(){
-        CoilyScript.Move();
+        if (CoilyScript.coily != null)
+        {
+            CoilyScript.Move();
+        }
+        
         Destroy(gameObject);
     }
 }

@@ -1,16 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class UIController : MonoBehaviour {
 
     public GameObject InGameUI;
     public GameObject PauseMenu;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
+    public TextMeshProUGUI PlayerScore;
 	
 	// Update is called once per frame
 	void Update () {
